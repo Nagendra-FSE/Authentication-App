@@ -1,0 +1,2 @@
+export declare const getUserHandler: (req: import("express").Request, res: import("express").Response, next: import("express").NextFunction) => Promise<any>;
+//# sourceMappingURL=user.controller.d.ts.map
