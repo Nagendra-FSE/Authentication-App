@@ -24,7 +24,6 @@ yarn-debug.log*
 yarn-error.log*
 
 /backend/node_modules
-/backend/dist
 /backend/.env
 
 # IDEs and editors
