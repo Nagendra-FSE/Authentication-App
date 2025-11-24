@@ -30,6 +30,8 @@ class AuthService {
             expiresAt: addDaysToDate(365 * 24 * 60 * 60 * 1000), // expires in 24 hours
         });
 
+        
+
         const session = await SessionModel.create({
             userId,
             userAgent,

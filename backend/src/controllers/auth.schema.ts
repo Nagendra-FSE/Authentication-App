@@ -1,11 +1,14 @@
 import { z } from "zod";
 
+const loginEmailSchema = z.string().email("Invalid email format");
+const loginPasswordSchema=z.string();
+
 const emailSchema = z.string().email("Invalid email format").min(5).max(255);
 const passwordSchema = z.string().min(8).max(100);
 
 export const loginSchema = z.object({
-    email: emailSchema,
-    password: passwordSchema,
+    email: loginEmailSchema,
+    password: loginPasswordSchema,
     userAgent: z.string().optional(),
 });
 
