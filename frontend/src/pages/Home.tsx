@@ -2,6 +2,7 @@
 
 import RemoteUser from 'user/User';
 import useAuth from '../hooks/useAuth';
+import { Link } from 'react-router-dom';
 
   const user: any = {
       id: "dsafsfefae",
@@ -14,14 +15,17 @@ const Home = () => {
 console.log(user)
   if(isPending) return <h1>loading..........</h1>
 
-  if(isError) return <h1>error..........</h1>
+  
 
   return (
     <>
-    <div>Home</div>
+    <div>
 
-              <RemoteUser user={user} />
 
+    {isPending && <h1>loading..........</h1>}
+    {isError &&  <h1>Please Login here: <Link to="/login" /> </h1>}
+    {user &&  <RemoteUser user={user} />}
+        </div>
     </>
   )
 }
