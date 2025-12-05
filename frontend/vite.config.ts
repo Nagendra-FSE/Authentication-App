@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
     federation({
   remotes: {
     user: isDev
-      ? "http://localhost:5173/assets/remoteEntry.js"
+      ? "http://localhost:5001/assets/remoteEntry.js"
       : "https://authentication-app-4g9l.onrender.com/assets/remoteEntry.js", // adjust port/URL
   },
   shared: ['react', 'react-dom', 'react-router-dom'],
