@@ -1,5 +1,5 @@
 interface ImportMetaEnv {
-  readonly VITE_REMOTE_URL: string
+  readonly MODE: string
 }
 
 interface ImportMeta {
