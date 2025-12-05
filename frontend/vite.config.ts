@@ -3,8 +3,11 @@ import federation from "@originjs/vite-plugin-federation";
 import react from '@vitejs/plugin-react';
 
 // https://vite.dev/config/
-export default defineConfig({
-  plugins: [
+export default defineConfig(({ mode }) => {
+  const isDev = mode === "development";
+
+  return {
+     plugins: [
     react(),
     federation({
   remotes: {
@@ -14,5 +17,8 @@ export default defineConfig({
   },
   shared: ['react', 'react-dom', 'react-router-dom'],
     }),
-  ],
-})
+  ]
+  }
+ 
+});
+
