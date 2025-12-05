@@ -23,7 +23,7 @@ console.log(user)
 
 
     {isPending && <h1>loading..........</h1>}
-    {isError &&  <h1>Please Login here: <Link to="/login" /> </h1>}
+    {isError &&  <h1>Please Login here: <Link to="/login">Login</Link> </h1>}
     {user &&  <RemoteUser user={user} />}
         </div>
     </>
