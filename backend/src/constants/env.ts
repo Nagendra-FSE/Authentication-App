@@ -16,3 +16,9 @@ export const PORT = getEnvVar("PORT", "4004");
 export const ORIGIN = getEnvVar("APP_ORIGIN", "http://localhost:3000");
 
 export const jwtSecret = getEnvVar("JWT_SECRET", "your_jwt_secret");
+
+export const ResendAPIKey = getEnvVar("RESEND_API_KEY");
+
+export const nodeEnv = getEnvVar("NODE_ENV");
+
+export const sendMailer = getEnvVar("EMAIL_SENDER");

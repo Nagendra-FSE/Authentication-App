@@ -10,13 +10,13 @@ Checkbox,
   Heading,
   Input,
   Field,
-  FieldErrorText,
+  Link as ChakraLink,
   Text,
   Stack
 } from "@chakra-ui/react";
 import type { FC, KeyboardEvent } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { login } from "../lib/api";
+import { forgotPassword, login } from "../lib/api";
 // ...existing code...
 
 const Login: FC = () => {
@@ -24,7 +24,7 @@ const Login: FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [showPassword, setShowPassword] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
 
     const {
         mutate: signin,
@@ -36,8 +36,7 @@ const Login: FC = () => {
         onSuccess: () => {
           navigate("/", {replace: true})
         }
-    })
- 
+    }) 
 
   return (
     <>
@@ -65,7 +64,7 @@ const Login: FC = () => {
                 <Field.Label>Password</Field.Label>
 
                   <Input
-                    type={showPassword ? "text" : "password"}
+                    type={"password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter your password"
@@ -87,9 +86,9 @@ const Login: FC = () => {
                   <Checkbox.Control />
                   <Checkbox.Label>Remember me</Checkbox.Label>
                 </Checkbox.Root>
-           
+                  <Link to="/forgot/password">
                   Forgot password?
-           
+                    </Link>
               </Flex>
 
               <Button

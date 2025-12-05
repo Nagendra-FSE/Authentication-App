@@ -25,6 +25,13 @@ declare class AuthService {
         newRefreshToken: string | undefined;
     }>;
     verifyEmail(code: string): Promise<void>;
+    sendPasswordResetEmail(email: string): Promise<{
+        url: string;
+        emailId: string;
+    }>;
+    resetPassword(password: string, code: string): Promise<{
+        user: Pick<import("../model/user.model.js").UserDocument, "createdAt" | "_id" | "email" | "verified" | "updatedAt">;
+    }>;
 }
 export default AuthService;
 //# sourceMappingURL=auth.service.d.ts.map
