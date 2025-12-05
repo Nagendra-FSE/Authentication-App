@@ -1,9 +1,9 @@
 import { z } from "zod";
 
-const loginEmailSchema = z.string().email("Invalid email format");
+export const loginEmailSchema = z.email();
 const loginPasswordSchema=z.string();
 
-const emailSchema = z.string().email("Invalid email format").min(5).max(255);
+export const emailSchema = z.email();
 const passwordSchema = z.string().min(8).max(100);
 
 export const loginSchema = z.object({
@@ -18,10 +18,14 @@ export const registerSchema = loginSchema.extend({
         message: "Passwords do not match", path: ["confirmPassword"],
 });
 
+export const verificationCode = z.string().min(6).max(25)
+
 export const verificationCodeSchema = z.object({
-    code: z.string().min(6).max(25),
+    code: verificationCode
 });
 
-
-
+export const resetPasswordSchema = z.object({
+    password: passwordSchema,
+    verificationCode: verificationCode
+})
 

@@ -1,7 +1,7 @@
 // ...existing code...
 import { useQuery } from "@tanstack/react-query";
 import type { FC } from "react";
-import { useParams, useNavigate,  Link as RouterLink } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { verifyEmailCode } from "../lib/api";
 import {
   Box,

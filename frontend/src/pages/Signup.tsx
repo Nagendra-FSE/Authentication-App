@@ -26,7 +26,7 @@ const Login: FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setCnfPassword] = useState<string>("");
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  // const [showPassword, setShowPassword] = useState<boolean>(false);
 
  const {
     mutate: signup,
@@ -67,7 +67,7 @@ const Login: FC = () => {
                 <Field.Label>Password</Field.Label>
 
                   <Input
-                    type={showPassword ? "text" : "password"}
+                    type={"password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter your password"
@@ -81,7 +81,7 @@ const Login: FC = () => {
                 <Field.Label>Confirm Password</Field.Label>
 
                   <Input
-                    type={showPassword ? "text" : "password"}
+                    type={"password"}
                     value={confirmPassword}
                     onChange={(e) => setCnfPassword(e.target.value)}
                     placeholder="Confirm your password"
