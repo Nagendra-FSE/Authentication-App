@@ -8,7 +8,9 @@ export default defineConfig({
     react(),
     federation({
   remotes: {
-    user: 'http://localhost:5001/assets/remoteEntry.js', // adjust port/URL
+    user:  import.meta.env.VITE_REMOTE_URL === "development"
+      ? "http://localhost:5173/assets/remoteEntry.js"
+      : "https://authentication-app-4g9l.onrender.com/assets/remoteEntry.js", // adjust port/URL
   },
   shared: ['react', 'react-dom', 'react-router-dom'],
     }),
