@@ -44,9 +44,8 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true,
-    "allowImportingTsExtensions": true,
-    "emitDeclarationOnly": true
+    "skipLibCheck": true
+
   },
   "include": ["src", "index.d.ts"],
   "exclude": ["node_modules"]

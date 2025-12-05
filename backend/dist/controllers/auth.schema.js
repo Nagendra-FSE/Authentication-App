@@ -1,9 +1,11 @@
 import { z } from "zod";
-const emailSchema = z.string().email("Invalid email format").min(5).max(255);
+export const loginEmailSchema = z.email();
+const loginPasswordSchema = z.string();
+export const emailSchema = z.email();
 const passwordSchema = z.string().min(8).max(100);
 export const loginSchema = z.object({
-    email: emailSchema,
-    password: passwordSchema,
+    email: loginEmailSchema,
+    password: loginPasswordSchema,
     userAgent: z.string().optional(),
 });
 export const registerSchema = loginSchema.extend({
@@ -11,7 +13,12 @@ export const registerSchema = loginSchema.extend({
 }).refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match", path: ["confirmPassword"],
 });
+export const verificationCode = z.string().min(6).max(25);
 export const verificationCodeSchema = z.object({
-    code: z.string().min(6).max(25),
+    code: verificationCode
+});
+export const resetPasswordSchema = z.object({
+    password: passwordSchema,
+    verificationCode: verificationCode
 });
 //# sourceMappingURL=auth.schema.js.map

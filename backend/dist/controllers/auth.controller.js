@@ -1,11 +1,11 @@
 import catchErrors from "../utils/catchErrors.js";
-import authRoutes from "../routes/auth.route.js";
 import AuthService from "../service/auth.service.js";
-import { CREATED, OK, UNAUTHORIZED } from "../constants/http.js";
+import { ACCEPTED, CREATED, OK, UNAUTHORIZED } from "../constants/http.js";
 import { setAuthCookies, clearAuthCookies } from "../utils/cookies.js";
-import { registerSchema, loginSchema, verificationCodeSchema } from "./auth.schema.js";
+import { registerSchema, loginSchema, verificationCodeSchema, emailSchema, resetPasswordSchema } from "./auth.schema.js";
 import { verifyToken } from "../utils/jwt.js";
 import appAssert from "../utils/appAssert.js";
+import UserModel from "../model/user.model.js";
 const authService = new AuthService();
 export const registerHandler = catchErrors(async (req, res, next) => {
     const request = registerSchema.parse({ ...req.body, userAgent: req.headers['User-Agent'] });
@@ -50,5 +50,16 @@ export const verifyEmailHandler = catchErrors(async (req, res, next) => {
         await authService.verifyEmail(code);
     }
     return res.status(OK).json({ message: 'Email verified successfully' });
+});
+export const sendPasswordResetHandler = catchErrors(async (req, res, next) => {
+    const email = emailSchema.parse(req.body.email);
+    await authService.sendPasswordResetEmail(email);
+    return res.status(OK).json({ message: "Passward reset link sent" });
+});
+export const passwordResetHandler = catchErrors(async (req, res, next) => {
+    const request = resetPasswordSchema.parse({ password: req.body.password, verificationCode: req.body.code });
+    console.log(request);
+    await authService.resetPassword(request.password, request.verificationCode);
+    return clearAuthCookies(res).status(ACCEPTED).json({ message: "Password reset successful" });
 });
 //# sourceMappingURL=auth.controller.js.map

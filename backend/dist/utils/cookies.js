@@ -1,10 +1,10 @@
 import { addDaysToDate } from "./date.js";
-const secure = process.env.NODE_ENV !== 'development';
+// const secure = process.env.NODE_ENV !== 'development';
 export const REFRESH_PATH = '/auth/refresh';
 const cookieOptions = {
     httpOnly: true,
-    secure: secure,
-    sameSite: 'strict',
+    secure: true,
+    sameSite: 'none',
 };
 export const getAccessTokenCookieOptions = () => ({
     ...cookieOptions,
