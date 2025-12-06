@@ -13,7 +13,7 @@ const cookieOptions: CookieOptions = {
 
 export const getAccessTokenCookieOptions = (): CookieOptions => ({
         ...cookieOptions, 
-        expires: addDaysToDate(15 * 60 * 1000), // 15 minutes
+        expires: new Date(Date.now() + 15 * 60 * 1000), // 15 minutes
 });
 
 export const getRefreshTokenCookieOptions = (): CookieOptions => ({
@@ -23,7 +23,6 @@ export const getRefreshTokenCookieOptions = (): CookieOptions => ({
 }); 
 
 export const setAuthCookies = (res: Response, accessToken: string, refreshToken?: string) => {
-
         if(!refreshToken) {
             return res
                 .cookie('accessToken', accessToken, getAccessTokenCookieOptions());

@@ -18,8 +18,12 @@ const User: React.FC<Props> = ({user}) => {
       <p style={{ color: "#fff" }}>
         <strong >Email:</strong> {user?.email}
       </p>
-      <p>
+      <p style={{ color: "#fff" }}>
         <strong>Verified:</strong> {user?.verified ? "Verified" : "Email Not verified"}
+       
+      </p>
+      <p style={{ color: "#fff" }}>
+         {user?.verified == false && "Please verify your email via link; please check your email"}
       </p>
     </div>
   );

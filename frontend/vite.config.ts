@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => {
     react(),
     federation({
   remotes: {
-    user: isDev
+    components: isDev
       ? "http://localhost:5001/assets/remoteEntry.js"
       : "https://authentication-app-4g9l.onrender.com/assets/remoteEntry.js", // adjust port/URL
   },

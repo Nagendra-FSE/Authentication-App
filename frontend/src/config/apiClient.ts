@@ -1,5 +1,5 @@
 // ...existing code...
-import axios, { type AxiosInstance, type AxiosError, type AxiosRequestConfig } from "axios";
+import axios, { type AxiosInstance, type AxiosError, type AxiosRequestConfig, type InternalAxiosRequestConfig } from "axios";
 
 type APIError = {
   message: string;
@@ -30,20 +30,28 @@ API.interceptors.request.use((config) => {
 // normalize responses and errors
 API.interceptors.response.use(
   (response) => response.data,
-  (error: AxiosError) => {
-    if (error.response) {
-      const payload: APIError = {
-        message: (error.response.data && (error.response.data as any).message) || error.message,
-        status: error.response.status,
-        errorCode: (error.response.data && (error.response.data as any).errorCode) || undefined
-      };
-      console.log(payload)
-      return Promise.reject(payload);
-    }
+ async (error: AxiosError) => {
+       const originalRequest = error.config as InternalAxiosRequestConfig;
 
-    const payload: APIError = { message: error.message || "Network Error" };
-    return Promise.reject(payload);
+  if (error.response?.status === 401 && !originalRequest?._retry) {
+
+      originalRequest._retry = true;
+     try {
+          await API.get("/auth/refresh", {
+          withCredentials: true,
+        });
+        console.log(originalRequest)
+
+        // ensure headers object exists
+        originalRequest.headers = originalRequest.headers || {};
+
+        // retry failed request
+        return API(originalRequest);
+     } catch (error) {
+         return Promise.reject(error);
+     }
   }
+}
 );
 
 /** helper to set/remove auth header programmatically */

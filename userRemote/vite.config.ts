@@ -7,10 +7,11 @@ export default defineConfig({
   plugins: [
     react(),
      federation({
-      name: "user",
+      name: "components",
       filename: "remoteEntry.js",
       exposes: {
         "./User": "./src/pages/User",
+        "./Button": "./src/pages/Button",
       },
         shared: [
         "react",
