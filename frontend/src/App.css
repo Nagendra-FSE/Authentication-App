@@ -1,0 +1,9 @@
+
+#root {
+    display: flex;
+    justify-content: center;
+}
+
+.container > input {
+    color: #000;
+}

@@ -1,5 +1,6 @@
 // ...existing code...
 import axios, { type AxiosInstance, type AxiosError, type AxiosRequestConfig, type InternalAxiosRequestConfig } from "axios";
+import { getCSRFToken } from "./utils";
 
 type APIError = {
   message: string;
@@ -17,9 +18,13 @@ const API: AxiosInstance = axios.create(options);
 // attach token from localStorage (if present) to every request
 API.interceptors.request.use((config) => {
   try {
-    const token = localStorage.getItem("auth_token");
+    const token = localStorage.getItem("token");
+    const csrfToken = getCSRFToken();
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
+    }
+    if(csrfToken && config.headers) {
+      config.headers["X-CSRF-Token"] = csrfToken;
     }
   } catch {
     /* ignore localStorage errors */
@@ -28,30 +33,66 @@ API.interceptors.request.use((config) => {
 });
 
 // normalize responses and errors
+let isRefreshing = false;
+let queue: {(error?: string | null, token?: string | null): void}[] = [];
+
+function subscribeTokenRefresh(callback:any) {
+  queue.push(callback);
+}
+
+function processQueue(error?: string | null, token: string | null = null) {
+  queue.forEach((cb) => cb(error, token));
+  queue = [];
+}
+
+// =========================
+// Response Interceptor
+// =========================
 API.interceptors.response.use(
-  (response) => response.data,
- async (error: AxiosError) => {
-       const originalRequest = error.config as InternalAxiosRequestConfig;
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
 
-  if (error.response?.status === 401 && !originalRequest?._retry) {
-
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-     try {
-          await API.get("/auth/refresh", {
+
+      // If refresh is already happening — queue the request
+      if (isRefreshing) {
+        return new Promise((resolve, reject) => {
+          subscribeTokenRefresh((err: string) => {
+            if (err) return reject(err);
+            resolve(API(originalRequest));
+          });
+        });
+      }
+
+      // Start refresh call
+      isRefreshing = true;
+
+      try {
+        const refreshResponse = await API.get("/auth/refresh", {
           withCredentials: true,
         });
-        console.log(originalRequest)
 
-        // ensure headers object exists
-        originalRequest.headers = originalRequest.headers || {};
+        isRefreshing = false;
 
-        // retry failed request
+        // Process queued requests
+        processQueue(null, refreshResponse.data?.accessToken);
+
+        // Retry original request
         return API(originalRequest);
-     } catch (error) {
-         return Promise.reject(error);
-     }
+      } catch (refreshError) {
+        isRefreshing = false;
+
+        // Reject queued requests
+        processQueue(refreshError as string, null);
+
+        return Promise.reject(refreshError);
+      }
+    }
+
+    return Promise.reject(error);
   }
-}
 );
 
 /** helper to set/remove auth header programmatically */

@@ -4,7 +4,7 @@ import AppErrorCode from "../constants/appErrorCode.js";
 import { verifyToken } from "../utils/jwt.js";
 export const authentication = (req, res, next) => {
     // Simple authentication middleware example
-    const accessToken = req.cookies['accessToken'];
+    const accessToken = req.body.accessToken;
     appAssert(accessToken, 'Unauthorized: No access token provided', UNAUTHORIZED, AppErrorCode.InvalidAccesToken);
     const { sessionId, userId, error } = verifyToken(accessToken || "");
     appAssert(sessionId, error?.message || 'Unauthorized: Invalid access token', UNAUTHORIZED, AppErrorCode.InvalidAccesToken);

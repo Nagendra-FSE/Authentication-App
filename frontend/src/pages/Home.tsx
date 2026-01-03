@@ -24,6 +24,7 @@ const Home = () => {
          onSuccess: () => {
             // Clear **all** cached data
       queryClient.clear();
+      localStorage.removeItem("token");
       // Optional: also remove all ongoing queries
       queryClient.cancelQueries();
            navigate("/login")
@@ -34,12 +35,11 @@ const Home = () => {
 
   if(isPending) return <h1>loading..........</h1>
 
- 
-
   return (
     <>
     <div>
-    {isPending && <h1>loading..........</h1>}
+      <div className="links"><Link to="/dashboard" >Dashboard</Link></div>
+    
     {isError && <div><h3>Please Login here: </h3> <Button><Link to="/login">Login</Link></Button></div> }
     {user &&  <RemoteUser user={user} />}
     {user && <Button onClick={logoutHandler} >Logout</Button>}

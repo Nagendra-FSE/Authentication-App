@@ -1,5 +1,11 @@
 import type { CookieOptions, Response } from "express"
 import { addDaysToDate } from "./date.js";
+import crypto from "crypto";
+
+export const generateCSRFToken = () =>
+  crypto.randomBytes(32).toString("hex");
+
+const csrfToken = generateCSRFToken();
 
 // const secure = process.env.NODE_ENV !== 'development';
 
@@ -8,7 +14,7 @@ export const REFRESH_PATH = '/auth/refresh';
 const cookieOptions: CookieOptions = {
     httpOnly: true,
     secure: true,
-    sameSite: 'none',       
+    sameSite: 'strict',       
 };
 
 export const getAccessTokenCookieOptions = (): CookieOptions => ({
@@ -22,17 +28,18 @@ export const getRefreshTokenCookieOptions = (): CookieOptions => ({
         path: REFRESH_PATH,
 }); 
 
-export const setAuthCookies = (res: Response, accessToken: string, refreshToken?: string) => {
+export const setAuthCookies = (res: Response, refreshToken?: string) => {
         if(!refreshToken) {
             return res
-                .cookie('accessToken', accessToken, getAccessTokenCookieOptions());
         }
         return res
-        .cookie('accessToken', accessToken, getAccessTokenCookieOptions())
+        .cookie("csrfToken", csrfToken, {...cookieOptions, httpOnly: false})
         .cookie('refreshToken', refreshToken, getRefreshTokenCookieOptions());
 }
 
 export const clearAuthCookies = (res: Response) => {
     return res
-        .clearCookie('accessToken').clearCookie('refreshToken', { path: REFRESH_PATH });
+        .clearCookie('accessToken')
+        .clearCookie('csrfToken')
+        .clearCookie('refreshToken', { path: REFRESH_PATH });
 }

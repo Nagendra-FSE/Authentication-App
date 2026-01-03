@@ -1,0 +1,36 @@
+
+.app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.layout {
+    width: 100px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+.btn-custom {
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+}   
+
+.container {
+    position: relative;
+    width: 300px;
+}
+
+.container > input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.container > input:focus {
+    outline: none;
+}

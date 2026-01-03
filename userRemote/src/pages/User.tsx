@@ -1,5 +1,6 @@
 import React from 'react';
 import type { UserType } from '../types/userType.types.ts';
+import AutoComplete from '../components/AutoComplete.tsx';
 
 type Props = {
     user: UserType
@@ -12,8 +13,11 @@ const User: React.FC<Props> = ({user}) => {
     return <div style={{ padding: 20 }}>User not found</div>;
   }
 
+ 
+
   return (
     <div style={{ padding: 20 }}>
+     
       <h2>User Detail</h2>
       <p style={{ color: "#fff" }}>
         <strong >Email:</strong> {user?.email}

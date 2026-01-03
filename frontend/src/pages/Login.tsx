@@ -10,7 +10,6 @@ Checkbox,
   Heading,
   Input,
   Field,
-  Link as ChakraLink,
   Text,
   Stack
 } from "@chakra-ui/react";
@@ -33,7 +32,11 @@ const Login: FC = () => {
          error
     } = useMutation({
         mutationFn: login,
-        onSuccess: () => {
+        onSuccess: (res) => {
+          console.log("Login successful:", res?.data?.token);
+          if (res?.data?.token) {
+            localStorage.setItem("token", res.data.token);
+          }
           navigate("/", {replace: true})
         }
     }) 

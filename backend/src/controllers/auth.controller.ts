@@ -21,7 +21,7 @@ export const registerHandler = catchErrors(async (req, res, next) => {
         password: request.password,
         userAgent: request.userAgent,
     });
-    return setAuthCookies(res, accessToken, refreshToken).status(CREATED).json({ user: newUser, message: 'User registered successfully' });
+    return setAuthCookies(res, refreshToken).status(CREATED).json({ user: newUser, message: 'User registered successfully', token: accessToken });
 
 });
 
@@ -35,13 +35,13 @@ export const loginHandler = catchErrors(async (req, res, next) => {
                     password: request.password,
                     userAgent: request.userAgent,
                 });
-    return setAuthCookies(res, accessToken, refreshToken)
+    return setAuthCookies(res, refreshToken)
             .status(OK)
-            .json({ user, message: 'logged In Successfully' });
+            .json({ user, message: 'logged In Successfully', token: accessToken });
 });
 
 export const logoutHandler = catchErrors(async (req, res, next) => {
-    const accessToken = req.cookies['accessToken'] as string | undefined;
+    const accessToken = req.headers.authorization?.split(" ")[1];
     const { sessionId } = verifyToken<accessTokenPayload>(accessToken || "");
 
     if (sessionId) {
@@ -56,9 +56,9 @@ export const refreshTokenHandler = catchErrors(async (req, res, next) => {
 
     appAssert(refreshToken, 'Missing refresh token', UNAUTHORIZED);
     const {newRefreshToken, accessToken} = await authService.refreshUserAccesToken(refreshToken);
-    return setAuthCookies(res, accessToken, newRefreshToken)
+    return setAuthCookies(res, newRefreshToken)
             .status(OK)
-            .json({ message: 'Token refreshed successfully' });
+            .json({ message: 'Token refreshed successfully', token: accessToken });
 });
 
 export const verifyEmailHandler = catchErrors(async (req, res, next) => {

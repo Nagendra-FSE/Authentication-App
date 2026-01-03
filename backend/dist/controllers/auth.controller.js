@@ -29,7 +29,7 @@ export const loginHandler = catchErrors(async (req, res, next) => {
         .json({ user, message: 'logged In Successfully' });
 });
 export const logoutHandler = catchErrors(async (req, res, next) => {
-    const accessToken = req.cookies['accessToken'];
+    const accessToken = req.body.accessToken;
     const { sessionId } = verifyToken(accessToken || "");
     if (sessionId) {
         await authService.logoutUser(sessionId);

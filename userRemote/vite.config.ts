@@ -11,7 +11,8 @@ export default defineConfig({
       filename: "remoteEntry.js",
       exposes: {
         "./User": "./src/pages/User",
-        "./Button": "./src/pages/Button",
+        "./Button": "./src/components/Button",
+        "./AutoComplete": "./src/components/AutoComplete",
       },
         shared: [
         "react",

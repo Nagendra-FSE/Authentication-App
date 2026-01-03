@@ -5,6 +5,9 @@ declare global {
         interface Request {
             userId?: UserDocument['_id'];
             sessionId?: SessionDoc['_id'];
+            cookies: {
+                    csrfToken?: string;
+};
         }
     }
 }
