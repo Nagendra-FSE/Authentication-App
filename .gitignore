@@ -25,6 +25,9 @@ yarn-error.log*
 /backend/node_modules
 /backend/.env
 
+/ServerA/node_modules
+/ServerA/.env
+
 # IDEs and editors
 /.idea  
 .vscode/

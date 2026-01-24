@@ -5,6 +5,8 @@ import User from './pages/User';
 import type { UserType } from './types/userType.types';
 import  {type MouseEvent, useCallback } from 'react';
 import GridLight from './components/GridLights';
+import { groupAnagrams } from "./utils/dsa";
+
 import Button from './components/Button';
   const user: UserType = {
       id: "dsafsfefae",
@@ -12,7 +14,7 @@ import Button from './components/Button';
       verified: false
   }
 function App() {
-
+  console.log(groupAnagrams(["eat","tea","tan","ate","nat","bat"]))
   const clickHandler = useCallback((e: MouseEvent<HTMLButtonElement>) => {
     console.log(e, "dsds")
   }, [])

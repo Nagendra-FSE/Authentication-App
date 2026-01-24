@@ -1,6 +1,5 @@
 import React from 'react';
 import type { UserType } from '../types/userType.types.ts';
-import AutoComplete from '../components/AutoComplete.tsx';
 
 type Props = {
     user: UserType
@@ -12,8 +11,6 @@ const User: React.FC<Props> = ({user}) => {
   if (!user) {
     return <div style={{ padding: 20 }}>User not found</div>;
   }
-
- 
 
   return (
     <div style={{ padding: 20 }}>
